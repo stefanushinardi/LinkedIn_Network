@@ -14,7 +14,7 @@ st.set_page_config(
 )
 
 st.title("LinkedIn Network Visualizer")
-st.write('Created by Jeanna Schoonmaker, Dec 2021')
+st.write('Created by Stefanus Hinardi, Apr 2024')
 st.write("For instructions on downloading your LinkedIn connections file, click on the plus sign below")
 with st.expander(''):
     st.write("""
@@ -33,9 +33,9 @@ with st.expander(''):
 
 video_file = open("example_vid.webm", "rb").read()
 
-st.write("For a video showing how to use this app, click on the plus sign below")
-with st.expander(''):
-    st.video(video_file)
+# st.write("For a video showing how to use this app, click on the plus sign below")
+# with st.expander(''):
+#     st.video(video_file)
 
 
 # uploading and cleaning data file
@@ -50,7 +50,7 @@ else:
 df = (
     df_ori
     .clean_names() # remove spacing and capitalization
-    .drop(columns=['first_name', 'last_name', 'email_address']) # drop for privacy
+    # .drop(columns=['first_name', 'last_name', 'email_address']) # drop for privacy
     .dropna(subset=['company', 'position']) # drop missing values in company and position
     .to_datetime('connected_on', format='%d %b %Y')
   )
@@ -121,14 +121,17 @@ count_option = st.sidebar.slider('Choose the minimum number of connections at co
 
 position_option = st.sidebar.slider('Choose the minimum number of position titles for it to be included:', 1, 20, 3)
 
+number_sample_option = st.sidebar.slider('Choose the number of sample included', 20, 10, 150)
+
+
 root_name = st.sidebar.text_input("To put your name at the center of the network diagrams, enter it here:")
 
-st.sidebar.write('Thanks to Benedict Neo for the inspiration and code used from this article: https://medium.com/bitgrit-data-science-publication/visualize-your-linkedin-network-with-python-59a213786c4')
-st.sidebar.write('And to Bradley Schoeneweis: https://bschoeneweis.github.io/visualizing-your-linkedin-connections-using-python')
+# st.sidebar.write('Thanks to Benedict Neo for the inspiration and code used from this article: https://medium.com/bitgrit-data-science-publication/visualize-your-linkedin-network-with-python-59a213786c4')
+# st.sidebar.write('And to Bradley Schoeneweis: https://bschoeneweis.github.io/visualizing-your-linkedin-connections-using-python')
 # creating bar graphs
 df_company = df['company'].value_counts().reset_index()
 df_company.columns = ['company', 'count']
-df_top_co = df_company.sort_values(by='count', ascending=False).head(15)
+df_top_co = df_company.sort_values(by='count', ascending=False).head(20)
 
 co_graph = px.bar(df_top_co, x='count', y='company', color='count', orientation='h', color_continuous_scale=str_to_class(color_option)).update_layout(yaxis_categoryorder="total ascending")
 st.header('Connections by Company')
@@ -143,6 +146,7 @@ pos_graph = px.bar(df_top_pos, x='count', y='position', color='count', orientati
 st.header('Connections by Position')
 st.write(pos_graph)
 st.markdown('#')
+
 
 hist_values = px.histogram(df['connected_on'], nbins=15, orientation='h', color=df['connected_on'].dt.year, color_discrete_sequence=str_to_class(color_option)).update_layout(bargap=0.1)
 st.header('Connections by Date')
@@ -233,4 +237,52 @@ with open("position_graph.html", "rb") as file:
              mime="file/html"
            )
 
+st.markdown('#')
 
+# Preping data for poples graoh
+
+# initialize graph
+p = nx.Graph()
+p.add_node(root_name)
+st.header('People Graph')
+number_sample_option = st.slider('Choose the number of sample included', 20, 10, 150, key = "test")
+company_dict = {}
+position_dict = {}
+
+# use iterrows tp iterate through the data frame
+for i , row in df.sample(n=number_sample_option).iterrows():
+
+  count = 1
+  name= row['first_name'] + " " + row['last_name']
+  company = row['company']
+  position = row['position']
+
+  print(name + " " + company + " " + position)
+  p.add_node(name, size=count, weight=count, color=network_color(color_network_option), title=name, borderWidth=4, strokeWidth=2, strokeColor='black')
+  p.add_edge(root_name, name, color='grey')
+
+  if company in company_dict.keys():
+      for person in company_dict[company]:
+          p.add_edge(person, name, color='grey')
+  else:
+      company_dict[company] = [name]
+  
+  if position == "position":
+      continue
+  if position in position_dict.keys():
+      for person in position_dict[position]:
+          p.add_edge(person, name, color='blue')
+  else:
+      position_dict[position] = [name]
+
+nt = net.Network('750px', '100%', bgcolor='#31333f',  font_color='white')
+nt.from_nx(p)
+str_to_option(graph_option) # user option for either a spoked or packed graph
+nt.save_graph(f'people_graph.html')
+HtmlFile = open(f'people_graph.html','r',encoding='utf-8')
+
+
+# Load HTML into HTML component for display on Streamlit
+
+
+components.html(HtmlFile.read(), height=800, width=800)
