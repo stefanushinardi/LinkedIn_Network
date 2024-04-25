@@ -28,8 +28,7 @@ with st.expander(''):
     8. Wait for LinkedIn to send you an email saying your data is ready (usually takes less than 20 mins)
     9. Download the zip file from LinkedIn, extract it, then use the file uploader below to upload your connections list   
     """)
-    st.markdown('_Please_ _note_ - _no_ _names_ _or_ _email_ _addresses_ _will_ _be_ _used_ _in_ _these_ _graphs._ _Only_ _company_ _names_ _and_ _job_ _titles_ _will_ _be_ _displayed._')
-
+    
 video_file = open("example_vid.webm", "rb").read()
 
 # st.write("For a video showing how to use this app, click on the plus sign below")
