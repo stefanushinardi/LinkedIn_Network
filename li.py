@@ -252,18 +252,19 @@ position_dict = {}
 # use iterrows tp iterate through the data frame
 for i , row in df.sample(n=number_sample_option).iterrows():
 
-  count = 1
+  size = 10
   name= row['first_name'] + " " + row['last_name']
   company = row['company']
   position = row['position']
 
+  title = name + '<br/> <br/>' + company + '<br/> <br/>' + position
   print(name + " " + company + " " + position)
-  p.add_node(name, size=count, weight=count, color=network_color(color_network_option), title=name, borderWidth=4, strokeWidth=2, strokeColor='black')
+  p.add_node(name, size=size, weight=count, color=network_color(color_network_option), title=title, borderWidth=4, strokeWidth=2, strokeColor='black')
   p.add_edge(root_name, name, color='grey')
 
   if company in company_dict.keys():
       for person in company_dict[company]:
-          p.add_edge(person, name, color='grey')
+          p.add_edge(person, name, color='green')
   else:
       company_dict[company] = [name]
   
