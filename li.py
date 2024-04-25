@@ -15,7 +15,7 @@ st.set_page_config(
 
 st.title("LinkedIn Network Visualizer")
 st.write('Created by Stefanus Hinardi, Apr 2024')
-st.write("For instructions on downloading your LinkedIn connections file, click on the plus sign below")
+st.write("For instructions on downloading your LinkedIn connections file, click on the accordion below")
 with st.expander(''):
     st.write("""
     1. Log in to your LinkedIn account
@@ -28,7 +28,7 @@ with st.expander(''):
     8. Wait for LinkedIn to send you an email saying your data is ready (usually takes less than 20 mins)
     9. Download the zip file from LinkedIn, extract it, then use the file uploader below to upload your connections list   
     """)
-    
+
 video_file = open("example_vid.webm", "rb").read()
 
 # st.write("For a video showing how to use this app, click on the plus sign below")
