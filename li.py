@@ -25,9 +25,8 @@ with st.expander(''):
     5. Click the button next to the second option 'Want something in particular'
     6. Check the box next to 'Connections'
     7. Click on 'Request archive' and enter your password and click 'Done' if needed
-    8. I forget what 8 was for
-    9. Wait for LinkedIn to send you an email saying your data is ready (usually takes less than 20 mins)
-    10. Download the zip file from LinkedIn, extract it, then use the file uploader below to upload your connections list   
+    8. Wait for LinkedIn to send you an email saying your data is ready (usually takes less than 20 mins)
+    9. Download the zip file from LinkedIn, extract it, then use the file uploader below to upload your connections list   
     """)
     st.markdown('_Please_ _note_ - _no_ _names_ _or_ _email_ _addresses_ _will_ _be_ _used_ _in_ _these_ _graphs._ _Only_ _company_ _names_ _and_ _job_ _titles_ _will_ _be_ _displayed._')
 
@@ -50,7 +49,6 @@ else:
 df = (
     df_ori
     .clean_names() # remove spacing and capitalization
-    # .drop(columns=['first_name', 'last_name', 'email_address']) # drop for privacy
     .dropna(subset=['company', 'position']) # drop missing values in company and position
     .to_datetime('connected_on', format='%d %b %Y')
   )
