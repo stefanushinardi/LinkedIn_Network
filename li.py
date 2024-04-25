@@ -14,19 +14,21 @@ st.set_page_config(
 )
 
 st.title("LinkedIn Network Visualizer")
+st.write('Wharton Influence Class Project')
 st.write('Created by Stefanus Hinardi, Apr 2024')
 st.write("For instructions on downloading your LinkedIn connections file, click on the accordion below")
 with st.expander(''):
     st.write("""
-    1. Log in to your LinkedIn account
-    2. Click on the down arrow under your profile picture in the upper left hand corner of the screen
-    3. Under 'Account' click on 'Settings and Privacy'
-    4. In the 'Data Privacy' section, click on 'Get a copy of your data'
-    5. Click the button next to the second option 'Want something in particular'
-    6. Check the box next to 'Connections'
-    7. Click on 'Request archive' and enter your password and click 'Done' if needed
-    8. Wait for LinkedIn to send you an email saying your data is ready (usually takes less than 20 mins)
-    9. Download the zip file from LinkedIn, extract it, then use the file uploader below to upload your connections list   
+        1. Sign in to your LinkedIn account.
+        2. Navigate to the upper left corner of the screen and click on the downward arrow below your profile picture.
+        3. From the dropdown menu, select "Settings & Privacy" under the 'Account' section.
+        4. In the 'Data Privacy' category, choose "Get a copy of your data."
+        5. Select the button next to the second option labeled "Specify what you want."
+        6. Tick the box next to "Connections."
+        7. Click on "Request archive" and, if prompted, enter your password and confirm.
+        8. Allow some time for LinkedIn to process your request; typically, it takes less than 20 minutes.
+        9. Once your data is ready, LinkedIn will send you an email notification.
+        10. Download the zip file provided by LinkedIn, unzip it, and then utilize the file uploader below to share your connections list.   
     """)
 
 video_file = open("example_vid.webm", "rb").read()
