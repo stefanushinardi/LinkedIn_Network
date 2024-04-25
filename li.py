@@ -239,49 +239,49 @@ st.markdown('#')
 
 # Preping data for poples graoh
 
-# initialize graph
-p = nx.Graph()
-p.add_node(root_name)
-st.header('People Graph')
-number_sample_option = st.slider('Choose the number of sample included', 20, 10, 150, key = "test")
-company_dict = {}
-position_dict = {}
+# # initialize graph
+# p = nx.Graph()
+# p.add_node(root_name)
+# st.header('People Graph')
+# number_sample_option = st.slider('Choose the number of sample included', 20, 10, 150, key = "test")
+# company_dict = {}
+# position_dict = {}
 
-# use iterrows tp iterate through the data frame
-for i , row in df.sample(n=number_sample_option).iterrows():
+# # use iterrows tp iterate through the data frame
+# for i , row in df.sample(n=number_sample_option).iterrows():
 
-  size = 10
-  name= row['first_name'] + " " + row['last_name']
-  company = row['company']
-  position = row['position']
+#   size = 10
+#   name= row['first_name'] + " " + row['last_name']
+#   company = row['company']
+#   position = row['position']
 
-  title = name + '<br/> <br/>' + company + '<br/> <br/>' + position
-  print(name + " " + company + " " + position)
-  p.add_node(name, size=size, weight=count, color=network_color(color_network_option), title=title, borderWidth=4, strokeWidth=2, strokeColor='black')
-  p.add_edge(root_name, name, color='grey')
+#   title = name + '<br/> <br/>' + company + '<br/> <br/>' + position
+#   print(name + " " + company + " " + position)
+#   p.add_node(name, size=size, weight=count, color=network_color(color_network_option), title=title, borderWidth=4, strokeWidth=2, strokeColor='black')
+#   p.add_edge(root_name, name, color='grey')
 
-  if company in company_dict.keys():
-      for person in company_dict[company]:
-          p.add_edge(person, name, color='green')
-  else:
-      company_dict[company] = [name]
+#   if company in company_dict.keys():
+#       for person in company_dict[company]:
+#           p.add_edge(person, name, color='green')
+#   else:
+#       company_dict[company] = [name]
   
-  if position == "position":
-      continue
-  if position in position_dict.keys():
-      for person in position_dict[position]:
-          p.add_edge(person, name, color='blue')
-  else:
-      position_dict[position] = [name]
+#   if position == "position":
+#       continue
+#   if position in position_dict.keys():
+#       for person in position_dict[position]:
+#           p.add_edge(person, name, color='blue')
+#   else:
+#       position_dict[position] = [name]
 
-nt = net.Network('750px', '100%', bgcolor='#31333f',  font_color='white')
-nt.from_nx(p)
-str_to_option(graph_option) # user option for either a spoked or packed graph
-nt.save_graph(f'people_graph.html')
-HtmlFile = open(f'people_graph.html','r',encoding='utf-8')
-
-
-# Load HTML into HTML component for display on Streamlit
+# nt = net.Network('750px', '100%', bgcolor='#31333f',  font_color='white')
+# nt.from_nx(p)
+# str_to_option(graph_option) # user option for either a spoked or packed graph
+# nt.save_graph(f'people_graph.html')
+# HtmlFile = open(f'people_graph.html','r',encoding='utf-8')
 
 
-components.html(HtmlFile.read(), height=800, width=800)
+# # Load HTML into HTML component for display on Streamlit
+
+
+# components.html(HtmlFile.read(), height=800, width=800)
